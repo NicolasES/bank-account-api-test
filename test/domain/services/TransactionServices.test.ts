@@ -70,8 +70,16 @@ describe('TransactionServices', () => {
         await expect(transactionService.performWithdraw(1, 500)).rejects.toThrow('Account not found.');
     })
 
-    it('should run "performDeposit()" and throw HttpException - "invalid amount."', async () => {
+    it('should run "performWithdraw()" and throw HttpException - "invalid amount."', async () => {
         accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
         await expect(transactionService.performWithdraw(1, 0)).rejects.toThrow('The withdraw amount must be greater than 0.');
+    })
+    
+    it('should run "performWithdraw()" and throw HttpException - "insufficient amount."', async () => {
+        let accountMock = new AccountMock()
+        accountMock.amount = 10 
+        accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(accountMock)
+
+        await expect(transactionService.performWithdraw(1, 500)).rejects.toThrow('Insufficient amount in the account.');
     })
 })

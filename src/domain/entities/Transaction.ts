@@ -22,6 +22,11 @@ export class Transaction extends Model<Transaction> {
 
     @Column
     description: string
+
+    @Column({
+        field: 'account_amount'
+    })
+    accountAmount: number
   
     @BelongsTo(() => Account, 'account_id')
     account: Account

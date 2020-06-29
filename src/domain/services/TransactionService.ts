@@ -20,7 +20,8 @@ export class TransactionService implements TransactionServiceContract{
         let deposit = new Transaction({ amount, description: 'Depósito em conta.' })
         deposit.setAccount(account)
 
-        account.amount += deposit.amount
+        account.amount += amount
+        deposit.accountAmount = account.amount
         
         await this.accountRepository.persist(account)
         return this.transactionRepository.persist(deposit)
@@ -29,17 +30,22 @@ export class TransactionService implements TransactionServiceContract{
     async performWithdraw(accountId: number, amount: number): Promise<Transaction> {
         let account = await this.findAccount(accountId)
 
+        if (account.amount < amount) {
+            throw new HttpException('Insufficient amount in the account.', 400)
+        }
+
         if (amount <= 0 ) {
             throw new HttpException('The withdraw amount must be greater than 0.', 400)
         }
 
-        let deposit = new Transaction({ amount, description: 'Retirada em conta.' })
-        deposit.setAccount(account)
+        let withdraw = new Transaction({ amount: (-amount), description: 'Retirada em conta.' })
+        withdraw.setAccount(account)
 
-        account.amount -= deposit.amount
+        account.amount -= amount
+        withdraw.accountAmount = account.amount
         
         await this.accountRepository.persist(account)
-        return this.transactionRepository.persist(deposit)
+        return this.transactionRepository.persist(withdraw)
     }
 
     private async findAccount(accountId: number) {
