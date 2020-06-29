@@ -12,6 +12,7 @@ import ErrorMiddleware from '../middlewares/ErrorMiddleware'
 import UserValidation from '../middlewares/validations/UserValidation'
 import DepositValidation from '../middlewares/validations/DepositValidation'
 import WithdrawValidation from '../middlewares/validations/WithdrawValidation'
+import PaymentValidation from '../middlewares/validations/PaymentValidation'
 
 const router = Router()
 
@@ -27,6 +28,10 @@ router.post('/accounts/:id/deposit', DepositValidation, (req, res, next) => {
 
 router.post('/accounts/:id/withdraw', WithdrawValidation, (req, res, next) => {
     return accountController.withdraw(req, res, next)
+})
+
+router.post('/accounts/:id/payment', PaymentValidation, (req, res, next) => {
+    return accountController.payment(req, res, next)
 })
 
 router.use(ErrorMiddleware)

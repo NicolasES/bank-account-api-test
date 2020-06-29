@@ -1,9 +1,13 @@
 import { Request, Response, NextFunction } from 'express'
 
-import { AccountApplicationService } from "../../services/AccountApplicationSertice"
+import { AccountApplicationService } from "../../services/AccountApplicationService"
+import { PaymentApplicationService } from '../../services/PaymentApplicationService'
 
 export class AccountController {
-    constructor(private readonly accountApplicationService: AccountApplicationService) { }
+    constructor(
+        private readonly accountApplicationService: AccountApplicationService,
+        private readonly paymentApplicationService: PaymentApplicationService,
+    ) { }
 
     async deposit(req: Request, res: Response, next: NextFunction): Promise<any> {
         return this.accountApplicationService.deposit(req.params.id ,req.body.amount).then(result => {
@@ -15,6 +19,14 @@ export class AccountController {
     
     async withdraw(req: Request, res: Response, next: NextFunction): Promise<any> {
         return this.accountApplicationService.withdraw(req.params.id ,req.body.amount).then(result => {
+            return res.json(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
+
+    async payment(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return this.paymentApplicationService.payment(req.params.id, req.body).then(result => {
             return res.json(result)
         }).catch(err => {
             next(err)

@@ -8,9 +8,12 @@ import { UserRepository } from '../../infrastructure/database/repositories/UserR
 import { AccountRepository } from '../../infrastructure/database/repositories/AccountRepository'
 import { AccountService } from '../../domain/services/AccountService'
 import { AccountController } from '../http/controllers/AccountController'
-import { AccountApplicationService } from '../services/AccountApplicationSertice'
+import { AccountApplicationService } from '../services/AccountApplicationService'
 import { TransactionService } from '../../domain/services/TransactionService'
 import { TransactionRepository } from '../../infrastructure/database/repositories/TransactionRepository'
+import { PaymentService } from '../../domain/services/PaymentService'
+import { PaymentRepository } from '../../infrastructure/database/repositories/PaymentRepository'
+import { PaymentApplicationService } from '../services/PaymentApplicationService'
 
 const container = awilix.createContainer({ injectionMode: InjectionMode.CLASSIC })
 
@@ -40,7 +43,8 @@ export class ServiceContainer {
     private registerApplicationServices() {
         this.container.register({
             userApplicationService: asClass(UserApplicationService),
-            accountApplicationService: asClass(AccountApplicationService)
+            accountApplicationService: asClass(AccountApplicationService),
+            paymentApplicationService: asClass(PaymentApplicationService)
         })
     }
     
@@ -49,7 +53,8 @@ export class ServiceContainer {
         this.container.register({
             userService: asClass(UserService),
             accountService: asClass(AccountService),
-            transactionService: asClass(TransactionService)
+            transactionService: asClass(TransactionService),
+            paymentService: asClass(PaymentService)
         })
     }
     
@@ -58,7 +63,8 @@ export class ServiceContainer {
         this.container.register({
             userRepository: asClass(UserRepository),
             accountRepository: asClass(AccountRepository),
-            transactionRepository: asClass(TransactionRepository)
+            transactionRepository: asClass(TransactionRepository),
+            paymentRepository: asClass(PaymentRepository)
         })
     }
 
