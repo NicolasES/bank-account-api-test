@@ -11,7 +11,7 @@ const accountController: AccountController = container.resolve('accountControlle
 import ErrorMiddleware from '../middlewares/ErrorMiddleware'
 import UserValidation from '../middlewares/validations/UserValidation'
 import DepositValidation from '../middlewares/validations/DepositValidation'
-
+import WithdrawValidation from '../middlewares/validations/WithdrawValidation'
 
 const router = Router()
 
@@ -23,6 +23,10 @@ router.post('/users', UserValidation, (req, res, next) => {
 // ACCOUNT
 router.post('/accounts/:id/deposit', DepositValidation, (req, res, next) => {
     return accountController.deposit(req, res, next)
+})
+
+router.post('/accounts/:id/withdraw', WithdrawValidation, (req, res, next) => {
+    return accountController.withdraw(req, res, next)
 })
 
 router.use(ErrorMiddleware)

@@ -41,14 +41,37 @@ describe('TransactionServices', () => {
 
     it('should run "performDeposit()" successfully', async () => {
         accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
-
+        
         await transactionService.performDeposit(1, 500)
 
         expect(accountRepositoryMock.persist).toHaveBeenCalled()
         expect(transactionRepository.persist).toHaveBeenCalled()
     })
-
-    it('should run "performDeposit()" and throw HttpException("Account not found.")', async () => {
+    
+    it('should run "performDeposit()" and throw HttpException - "Account not found."', async () => {
         await expect(transactionService.performDeposit(1, 500)).rejects.toThrow('Account not found.');
+    })
+    
+    it('should run "performDeposit()" and throw HttpException - "invalid amount."', async () => {
+        accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
+        await expect(transactionService.performDeposit(1, 0)).rejects.toThrow('The deposit amount must be greater than 0.');
+    })
+    
+    it('should run "performWithdraw()" successfully', async () => {
+        accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
+
+        await transactionService.performWithdraw(1, 500)
+
+        expect(accountRepositoryMock.persist).toHaveBeenCalled()
+        expect(transactionRepository.persist).toHaveBeenCalled()
+    })
+
+    it('should run "performWithdraw()" and throw HttpException - "Account not found."', async () => {
+        await expect(transactionService.performWithdraw(1, 500)).rejects.toThrow('Account not found.');
+    })
+
+    it('should run "performDeposit()" and throw HttpException - "invalid amount."', async () => {
+        accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
+        await expect(transactionService.performWithdraw(1, 0)).rejects.toThrow('The withdraw amount must be greater than 0.');
     })
 })

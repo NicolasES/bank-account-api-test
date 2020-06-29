@@ -8,4 +8,8 @@ export class AccountApplicationService {
     async deposit(accountId: string, value: number): Promise<any> {
         return this.transactionService.performDeposit(Number(accountId), value)
     }
+    
+    async withdraw(accountId: string, value: number): Promise<any> {
+        return this.transactionService.performWithdraw(Number(accountId), value)
+    }
 }

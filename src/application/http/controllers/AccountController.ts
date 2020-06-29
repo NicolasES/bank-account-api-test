@@ -12,4 +12,12 @@ export class AccountController {
             next(err)
         })
     }
+    
+    async withdraw(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return this.accountApplicationService.withdraw(req.params.id ,req.body.amount).then(result => {
+            return res.json(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
 }
