@@ -12,4 +12,8 @@ export class AccountApplicationService {
     async withdraw(accountId: string, value: number): Promise<any> {
         return this.transactionService.performWithdraw(Number(accountId), value)
     }
+    
+    async history(accountId: string): Promise<any> {
+        return this.transactionService.getHistory(Number(accountId))
+    }
 }

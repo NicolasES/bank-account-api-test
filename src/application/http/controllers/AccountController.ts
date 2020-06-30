@@ -32,4 +32,12 @@ export class AccountController {
             next(err)
         })
     }
+
+    async history(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return this.accountApplicationService.history(req.params.id).then(result => {
+            return res.json(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
 }

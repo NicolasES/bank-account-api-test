@@ -34,6 +34,10 @@ router.post('/accounts/:id/payment', PaymentValidation, (req, res, next) => {
     return accountController.payment(req, res, next)
 })
 
+router.post('/accounts/:id/history', (req, res, next) => {
+    return accountController.history(req, res, next)
+})
+
 router.use(ErrorMiddleware)
 
 export default router

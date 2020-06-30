@@ -9,7 +9,8 @@ const AccountMock = <jest.Mock<Account>><unknown>Account
 
 const TransactionRepositoryMock = jest.fn<TransactionRepositoryContract, []>(() => ({
     persist: jest.fn(),
-    find: jest.fn()
+    find: jest.fn(),
+    getHistoryAccount: jest.fn()
 }))
 
 const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
@@ -81,5 +82,14 @@ describe('TransactionServices', () => {
         accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(accountMock)
 
         await expect(transactionService.performWithdraw(1, 500)).rejects.toThrow('Insufficient amount in the account.');
+    })
+
+    it('should run "getHistory()" successfully', async () => {
+        accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(new AccountMock())
+
+        await transactionService.getHistory(1)
+
+        expect(accountRepositoryMock.find).toHaveBeenCalled()
+        expect(transactionRepository.getHistoryAccount).toHaveBeenCalled()
     })
 })

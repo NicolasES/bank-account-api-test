@@ -48,6 +48,11 @@ export class TransactionService implements TransactionServiceContract{
         return this.transactionRepository.persist(withdraw)
     }
 
+    async getHistory(accountId: number): Promise<Transaction[]> {
+        let account = await this.findAccount(accountId)
+        return this.transactionRepository.getHistoryAccount(account)
+    }
+
     private async findAccount(accountId: number) {
         let account = await this.accountRepository.find(accountId)
         if(!account) {
