@@ -12,7 +12,9 @@ module.exports = {
                 transaction_id: {
                     type: Sequelize.INTEGER,
                     allowNull: false,
-                    references: { model: 'payments', key: 'id'},
+                    references: { model: 'transactions', key: 'id'},
+                    onUpdate: 'CASCADE',
+                    onDelete: 'CASCADE',
                 },
                 amount: {
                     type: Sequelize.FLOAT,

@@ -6,4 +6,6 @@ export interface UserRepositoryContract {
     find(id: number | string): Promise<User | null>
 
     getAll(): Promise<User[]>
+
+    delete(user: User): Promise<boolean>
 }

@@ -7,10 +7,14 @@ export class AccountService implements AccountServiceContract {
     constructor(
         private readonly accountRepository: AccountRepositoryContract
     ) { }
-
+    
     createAccount(user: User): Promise<Account> {
         let account = new Account()
         account.setUser(user)
         return this.accountRepository.persist(account)
+    }
+
+    async deleteAccount(account: Account): Promise<boolean> {
+        return this.accountRepository.delete(account)
     }
 }

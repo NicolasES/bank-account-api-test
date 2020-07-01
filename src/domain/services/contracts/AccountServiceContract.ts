@@ -2,5 +2,7 @@ import Account from "../../entities/Account"
 import User from "../../entities/User";
 
 export interface AccountServiceContract {
-    createAccount(user: User): Promise<Account> 
+    createAccount(user: User): Promise<Account>
+
+    deleteAccount(account: Account): Promise<boolean>
 }

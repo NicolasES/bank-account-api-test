@@ -17,5 +17,12 @@ export class UserApplicationService {
         return this.userService.getAllUsers()
     }
 
+    async delete(userId: string): Promise<any> {
+        let user = await this.userService.findUser(Number(userId))
+        if (user.account) {
+            await this.accountService.deleteAccount(user.account)
+        }
+        return this.userService.deleteUser(user)
+    }
 
 }

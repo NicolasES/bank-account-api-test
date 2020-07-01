@@ -25,6 +25,10 @@ router.get('/users', (req, res, next) => {
     return userController.all(req, res, next)
 })
 
+router.delete('/users/:id', (req, res, next) => {
+    return userController.delete(req, res, next)
+})
+
 // ACCOUNT
 router.post('/accounts/:id/deposit', DepositValidation, (req, res, next) => {
     return accountController.deposit(req, res, next)
@@ -38,7 +42,7 @@ router.post('/accounts/:id/payment', PaymentValidation, (req, res, next) => {
     return accountController.payment(req, res, next)
 })
 
-router.post('/accounts/:id/history', (req, res, next) => {
+router.get('/accounts/:id/history', (req, res, next) => {
     return accountController.history(req, res, next)
 })
 

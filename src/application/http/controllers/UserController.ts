@@ -20,4 +20,12 @@ export class UserController {
             next(err)
         })
     }
+
+    async delete(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return this.userApplicationService.delete(req.params.id).then(result => {
+            return res.status(204).json(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
 }

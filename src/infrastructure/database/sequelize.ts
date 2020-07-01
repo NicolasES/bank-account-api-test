@@ -10,7 +10,7 @@ import Payment from "../../domain/entities/Payment"
 const start = async () => {
 
     const sequelize = new Sequelize({
-        database: 'warren-api-test',
+        database: 'warren-api',
         dialect: 'mysql',
         username: 'root',
         password: '',
