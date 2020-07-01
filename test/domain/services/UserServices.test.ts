@@ -4,7 +4,8 @@ import sequelize from "../../support/sequelize"
 
 const UserRepositoryMock = jest.fn<UserRepositoryContract, []>(() => ({
     persist: jest.fn(),
-    find: jest.fn()
+    find: jest.fn(),
+    getAll: jest.fn()
 }))
 
 describe('UserServices', () => {
@@ -31,5 +32,10 @@ describe('UserServices', () => {
         userService.createUser(createUserData)
 
         expect(userRepository.persist).toHaveBeenCalled()
+    })
+
+    it('should run "createUser()" successfully', () => {
+        userService.getAllUsers()
+        expect(userRepository.getAll).toHaveBeenCalled()
     })
 })

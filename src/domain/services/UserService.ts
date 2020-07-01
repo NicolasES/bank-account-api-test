@@ -6,9 +6,14 @@ export class UserService implements UserServiceContract {
     constructor(
         private readonly userRepository: UserRepositoryContract
     ) { }
-
+    
     createUser(data: CreateUserDTO): Promise<User> {
         let user = new User(data)
         return this.userRepository.persist(user)
     }
+    
+    getAllUsers(): Promise<User[]> {
+        return this.userRepository.getAll()
+    }
+    
 }

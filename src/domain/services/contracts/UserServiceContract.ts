@@ -1,7 +1,9 @@
 import User from "../../entities/User"
 
 export interface UserServiceContract {
-    createUser(data: CreateUserDTO): Promise<User> 
+    createUser(data: CreateUserDTO): Promise<User>
+
+    getAllUsers(): Promise<User[]>
 }
 
 export interface CreateUserDTO {

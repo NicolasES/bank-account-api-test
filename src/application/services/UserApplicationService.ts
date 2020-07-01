@@ -12,4 +12,10 @@ export class UserApplicationService {
         await this.accountService.createAccount(user)
         return user 
     }
+    
+    async all(): Promise<any> {
+        return this.userService.getAllUsers()
+    }
+
+
 }

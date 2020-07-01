@@ -1,4 +1,5 @@
-import { Table, Column, Model } from "sequelize-typescript"
+import { Table, Column, Model, HasOne } from "sequelize-typescript"
+import Account from "./Account"
 
 @Table({
     tableName: 'users',
@@ -19,6 +20,9 @@ export class User extends Model<User>{
 
     @Column
     password: string
+
+    @HasOne(() => Account, { foreignKey: 'user_id' })
+    account: Account
 }
 
 export default User
