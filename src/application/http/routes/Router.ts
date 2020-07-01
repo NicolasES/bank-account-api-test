@@ -21,6 +21,10 @@ router.post('/users', UserValidation, (req, res, next) => {
     return userController.create(req, res, next)
 })
 
+router.get('/users/:id', (req, res, next) => {
+    return userController.find(req, res, next)
+})
+
 router.get('/users', (req, res, next) => {
     return userController.all(req, res, next)
 })

@@ -12,6 +12,14 @@ export class UserController {
             next(err)
         })
     }
+    
+    async find(req: Request, res: Response, next: NextFunction): Promise<any> {
+        return this.userApplicationService.find(req.params.id).then(result => {
+            return res.json(result)
+        }).catch(err => {
+            next(err)
+        })
+    }
 
     async all(req: Request, res: Response, next: NextFunction): Promise<any> {
         return this.userApplicationService.all().then(result => {
