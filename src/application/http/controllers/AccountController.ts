@@ -10,7 +10,7 @@ export class AccountController {
     ) { }
 
     async deposit(req: Request, res: Response, next: NextFunction): Promise<any> {
-        return this.accountApplicationService.deposit(req.params.id ,req.body.amount).then(result => {
+        return this.accountApplicationService.deposit(req.params.id, req.body.amount).then(result => {
             return res.json(result)
         }).catch(err => {
             next(err)
@@ -18,7 +18,7 @@ export class AccountController {
     }
     
     async withdraw(req: Request, res: Response, next: NextFunction): Promise<any> {
-        return this.accountApplicationService.withdraw(req.params.id ,req.body.amount).then(result => {
+        return this.accountApplicationService.withdraw(req.params.id, req.body.amount).then(result => {
             return res.json(result)
         }).catch(err => {
             next(err)

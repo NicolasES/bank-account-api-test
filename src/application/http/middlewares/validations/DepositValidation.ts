@@ -2,7 +2,7 @@ import Joi from '@hapi/joi'
 import { Request, Response, NextFunction } from 'express'
 
 const schema = Joi.object({
-    amount: Joi.number().greater(0),
+    amount: Joi.number().strict().greater(0).required(),
 })
 
 export default function (req: Request, res: Response, next: NextFunction) {
