@@ -1,10 +1,12 @@
 import express from 'express'
-const cors = require('cors')
+import dotenv from 'dotenv'
+import cors from 'cors'
 import Router from './application/http/routes/Router'
 import sequelize from './infrastructure/database/sequelize'
 import serveStatic from 'serve-static'
 import path from 'path'
 
+dotenv.config()
 
 const app = express()
 

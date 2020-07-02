@@ -1,10 +1,11 @@
+require('dotenv').config()
+
 module.exports = {
-    dialect: 'mysql',
-    username: 'root',
-    password: '',
-    database: 'warren-api',
+    dialect: process.env.DB_DIALECT,
+    database: process.env.DB_DATABASE,
+    username: process.env.DB_USER_NAME,
+    password: process.env.DB_PASSWORD,
     // logging: false,
-    // storage: ':memory:',
-    // models: [__dirname + '/domain/entities'], // or [Player, Team],
+    storage: './sqlitedb',
 }
 

@@ -11,6 +11,7 @@ export class AccountService implements AccountServiceContract {
     createAccount(user: User): Promise<Account> {
         let account = new Account()
         account.setUser(user)
+        account.amount = 0
         return this.accountRepository.persist(account)
     }
 
