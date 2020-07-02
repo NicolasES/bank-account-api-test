@@ -5,7 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage",
-    "dev": "ts-node-dev --respawn --transpileOnly src/index.ts"
+    "start": "ts-node-dev --respawn --transpileOnly src/index.ts",
+    "build": "npx tsc",
+    "migrate": "npx sequelize db:migrate",
+    "migrate:revert": "npx sequelize db:migrate:undo",
+    "migrate:revert:all": "npx sequelize db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",
