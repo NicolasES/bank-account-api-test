@@ -10,7 +10,7 @@ export class UserApplicationService {
     async create(data: CreateUserDTO): Promise<any> {
         let user = await this.userService.createUser(data)
         await this.accountService.createAccount(user)
-        return user 
+        return this.userService.findUser(user.id) 
     }
     
     async all(): Promise<any> {
