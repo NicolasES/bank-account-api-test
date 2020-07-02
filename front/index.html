@@ -122,9 +122,8 @@
             if (error.response.status == 422) {
                 alert(error.response.data.data[0].message)
             } else {
-                alert(JSON.stringify(error.response, null, 4))
+                alert(JSON.stringify(error.response.data.message, null, 4))
             }
-            console.log(error.response)
             return Promise.reject(error);
         });
 
