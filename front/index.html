@@ -209,7 +209,7 @@
                 reloadCurrentUser() {
                     let userId = this.currentUser.id
                     axios.get('/users/' + userId).then((user) => {
-                        this.currentUser = user.data
+                        Object.assign(this.currentUser, user.data)
                     })
                 },
 
