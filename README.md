@@ -25,6 +25,7 @@ npm run start
 ## Prinicipais tecnologias utilizadas:
 - Node.js (https://nodejs.org/)
 - Typescript (https://www.typescriptlang.org/)
+- @hapi/joi (https://hapi.dev/module/joi/)
 - Sequelize (https://sequelize.org/)
 - Sequelize-typescript (https://github.com/RobinBuschmann/sequelize-typescript)
 - Awilix (https://github.com/jeffijoe/awilix)
