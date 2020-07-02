@@ -26,7 +26,7 @@ export class PaymentService implements PaymentServiceContract {
         account.amount -= amount
         await this.accountRepository.persist(account)
         
-        let transaction = new Transaction({ amount: (-amount), description: `Pagamento para ${receiver}` })
+        let transaction = new Transaction({ amount: (-amount), description: `Pagamento para ${receiver}`, createdAt: new Date() })
         transaction.accountAmount = account.amount
         transaction.setAccount(account)
         await this.transactionRepository.persist(transaction)

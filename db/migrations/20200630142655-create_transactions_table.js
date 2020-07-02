@@ -27,7 +27,12 @@ module.exports = {
                 account_amount: {
                     type: Sequelize.FLOAT,
                     allowNull: false,
-                }
+                },
+                created_at: {
+                    type: Sequelize.DATE,
+                    allowNull: false,
+                    defaultValue: Sequelize.fn('now')
+                },
             }
         )
     },

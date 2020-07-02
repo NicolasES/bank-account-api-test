@@ -27,6 +27,11 @@ export class Transaction extends Model<Transaction> {
         field: 'account_amount'
     })
     accountAmount: number
+
+    @Column({
+        field: 'created_at'
+    })
+    createdAt: Date
   
     @BelongsTo(() => Account, 'account_id')
     account: Account
