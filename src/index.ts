@@ -19,6 +19,7 @@ app.use(Router)
 
 app.use(serveStatic(path.join(__dirname, '../front')))
 
+const port = process.env.PORT || 3000
 app.listen(3000, () => {
     console.log('Servidor iniciado.')
 })
