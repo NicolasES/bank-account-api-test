@@ -27,7 +27,7 @@
                 "payment payment"
                 "history history"
             ;
-            grid-gap: 20px;
+            grid-gap: 30px;
         }
 
         h1 {
@@ -84,17 +84,15 @@
         </h1>
 
         <div id="newUser">
-            <form>
-                <fieldset>
-                    <legend>Novo usuário</legend>
+            <fieldset>
+                <legend>Novo usuário</legend>
 
-                    <input type="text" placeholder="Nome" />
-                    <input type="text" placeholder="Email" />
-                    <input type="text" placeholder="Senha" />
-                    <button>Cadastrar</button>
+                <input type="text" placeholder="Nome" v-model="newUser.name" />
+                <input type="text" placeholder="Email" v-model="newUser.email" />
+                <input type="text" placeholder="Senha" v-model="newUser.password" />
+                <button @click="insertUser()">Cadastrar</button>
 
-                </fieldset>
-            </form>
+            </fieldset>
         </div>
 
 
@@ -103,8 +101,8 @@
             <fieldset>
                 <legend>Usuários</legend>
 
-                <select name="" size="5">
-                    <option v-for="user in users" :value="user" @click="selectUser(user)">
+                <select size="5">
+                    <option v-for="user in users" @click="selectUser(user)">
                         {{ user.name }}
                     </option>
                 </select>
@@ -116,8 +114,8 @@
             <div id="account">
                 <fieldset>
                     <legend>Conta</legend>
-                    Nome: <strong> {{ currentUser.name}} </strong><br/>
-                    Email: <strong> {{ currentUser.email}} </strong><br/>
+                    Nome: <strong> {{ currentUser.name}} </strong><br />
+                    Email: <strong> {{ currentUser.email}} </strong><br />
                     Saldo: <strong> R$ {{ currentUser.account.amount }} </strong>
                 </fieldset>
             </div>
@@ -126,19 +124,19 @@
                 <fieldset>
                     <legend>Deposito</legend>
 
-                    <label for="">Valor (R$):</label>
-                    <input type="text" name="">
-                    <button>CONFIRMAR</button>
+                    <label >Valor (R$):</label>
+                    <input type="text" v-model.number="depositAmount" />
+                    <button @click="deposit()">CONFIRMAR</button>
                 </fieldset>
             </div>
-
+            
             <div id="withdraw">
                 <fieldset>
                     <legend>Resgate</legend>
-
-                    <label for="">Valor (R$):</label>
-                    <input type="text" name="">
-                    <button>CONFIRMAR</button>
+                    
+                    <label >Valor (R$):</label>
+                    <input type="text" v-model.number="withdrawAmount" />
+                    <button @click="withdraw()">CONFIRMAR</button>
                 </fieldset>
             </div>
 
@@ -146,12 +144,12 @@
                 <fieldset>
                     <legend>Fazer um pagamento</legend>
 
-                    <label for="">Recebedor:</label>
-                    <input type="text" name="">
+                    <label >Recebedor:</label>
+                    <input type="text" v-model="paymentData.receiver"/>
 
-                    <label for="">Valor (R$):</label>
-                    <input type="text" name="">
-                    <button>CONFIRMAR</button>
+                    <label >Valor (R$):</label>
+                    <input type="text" v-model.number="paymentData.amount"/>
+                    <button @click="payment()">CONFIRMAR</button>
                 </fieldset>
             </div>
 
@@ -166,23 +164,11 @@
                             <th>Valor</th>
                             <th>Saldo</th>
                         </thead>
-                        <tr>
-                            <td>Deposito em conta</td>
+                        <tr v-for="transaction in accountHistory">
+                            <td>{{ transaction.description }}</td>
                             <td>20/04/2020</td>
-                            <td>- R$500.00</td>
-                            <td>R$ 3200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Deposito em conta</td>
-                            <td>20/04/2020</td>
-                            <td>- R$500.00</td>
-                            <td>R$ 3200.00</td>
-                        </tr>
-                        <tr>
-                            <td>Deposito em conta</td>
-                            <td>20/04/2020</td>
-                            <td>- R$500.00</td>
-                            <td>R$ 3200.00</td>
+                            <td>{{ transaction.amount }}</td>
+                            <td>{{ transaction.accountAmount }}</td>
                         </tr>
                     </table>
                 </fieldset>
@@ -191,6 +177,8 @@
     </div>
 
     <script>
+        axios.defaults.baseURL = 'http://localhost:3000'
+
         Vue.use({
             install(Vue) {
                 Vue.prototype.$http = axios
@@ -202,19 +190,89 @@
             el: '#app',
 
             mounted() {
-                axios.get('http://localhost:3000/users').then(users => {
-                    this.users = users.data
-                })
+                this.getAllUsers()
             },
 
             data: {
+                newUser: { name: '', email: '', password: '' },
                 users: [],
-                currentUser: null
+                currentUser: null,
+                depositAmount: 0,
+                withdrawAmount: 0,
+                accountHistory: [],
+                paymentData: { receiver: '', amount: 0 }
             },
 
             methods: {
+                getAllUsers() {
+                    axios.get('/users').then(users => {
+                        this.users = users.data
+                    })
+                },
+
                 selectUser(user) {
                     this.currentUser = user
+                    this.getHistory()
+                },
+
+                insertUser() {
+                    if (!this.newUser.name || !this.newUser.email || !this.newUser.password) {
+                        return
+                    }
+                    axios.post('/users', this.newUser).then(() => {
+                        this.newUser = { name: '', email: '', password: '' }
+                        this.getAllUsers()
+                    })
+                },
+
+                deposit() {
+                    let amount = this.depositAmount
+                    let accountId = this.currentUser.account.id
+                    axios.post('/accounts/' + accountId + '/deposit', { amount }).then(() => {
+                        this.depositAmount = 0
+                        return this.reloadCurrentUser()
+                    }).then(() => {
+                        this.getHistory()
+                    })
+                },
+
+                withdraw() {
+                    let amount = this.withdrawAmount
+                    let accountId = this.currentUser.account.id
+                    axios.post('/accounts/' + accountId + '/withdraw', { amount }).then(() => {
+                        this.withdrawAmount = 0
+                        return this.reloadCurrentUser()
+                    }).then(() => {
+                        this.getHistory()
+                    })
+                },
+
+                payment() {
+                    let accountId = this.currentUser.account.id
+                    axios.post('/accounts/' + accountId + '/payment', {
+                        receiver: this.paymentData.receiver,
+                        amount: this.paymentData.amount
+                    }).then(() => {
+                        this.paymentData.receiver = ''
+                        this.paymentData.amount = 0
+                        return this.reloadCurrentUser()
+                    }).then(() => {
+                        this.getHistory()
+                    })
+                },
+
+                getHistory() {
+                    let accountId = this.currentUser.account.id
+                    axios.get('/accounts/' + accountId + '/history').then((history) => {
+                        this.accountHistory = history.data
+                    })
+                },
+
+                reloadCurrentUser() {
+                    let userId = this.currentUser.id
+                    axios.get('/users/' + userId).then((user) => {
+                        this.currentUser = user.data
+                    })
                 }
             }
         })
