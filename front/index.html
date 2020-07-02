@@ -117,6 +117,10 @@
                     Nome: <strong> {{ currentUser.name}} </strong><br />
                     Email: <strong> {{ currentUser.email}} </strong><br />
                     Saldo: <strong> R$ {{ currentUser.account.amount }} </strong>
+                    
+                    <br/>
+                    <br/>
+                    <button @click="deleteUser()">DELETAR USUÁRIO</button>
                 </fieldset>
             </div>
 
@@ -272,6 +276,14 @@
                     let userId = this.currentUser.id
                     axios.get('/users/' + userId).then((user) => {
                         this.currentUser = user.data
+                    })
+                },
+
+                deleteUser() {
+                    let userId = this.currentUser.id
+                    axios.delete('/users/' + userId).then((user) => {
+                        this.currentUser = null
+                        this.getAllUsers()
                     })
                 }
             }
