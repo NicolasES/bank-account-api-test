@@ -63,7 +63,7 @@
                     <legend>Deposito</legend>
 
                     <label>Valor (R$):</label>
-                    <input type="text" v-model.number="depositAmount" />
+                    <input type="text" v-model="depositAmount" />
                     <button @click="deposit()">CONFIRMAR</button>
                 </fieldset>
             </div>
@@ -73,7 +73,7 @@
                     <legend>Resgate</legend>
 
                     <label>Valor (R$):</label>
-                    <input type="text" v-model.number="withdrawAmount" />
+                    <input type="text" v-model="withdrawAmount" />
                     <button @click="withdraw()">CONFIRMAR</button>
                 </fieldset>
             </div>
@@ -86,7 +86,7 @@
                     <input type="text" v-model="paymentData.receiver" />
 
                     <label>Valor (R$):</label>
-                    <input type="text" v-model.number="paymentData.amount" />
+                    <input type="text" v-model="paymentData.amount" />
                     <button @click="payment()">CONFIRMAR</button>
                 </fieldset>
             </div>
@@ -116,13 +116,17 @@
 
     <script>
         axios.defaults.baseURL = 'http://localhost:3000'
-
-        Vue.use({
-            install(Vue) {
-                Vue.prototype.$http = axios
+        axios.interceptors.response.use(function (response) {
+            return response;
+        }, function (error) {
+            if (error.response.status == 422) {
+                alert(error.response.data.data[0].message)
+            } else {
+                alert(JSON.stringify(error.response, null, 4))
             }
-        })
-
+            console.log(error.response)
+            return Promise.reject(error);
+        });
 
         var app = new Vue({
             el: '#app',
@@ -164,7 +168,7 @@
                 },
 
                 deposit() {
-                    let amount = this.depositAmount
+                    let amount = Number(this.depositAmount.replace(',', '.'))
                     let accountId = this.currentUser.account.id
                     axios.post('/accounts/' + accountId + '/deposit', { amount }).then(() => {
                         this.depositAmount = 0
@@ -175,7 +179,7 @@
                 },
 
                 withdraw() {
-                    let amount = this.withdrawAmount
+                    let amount = Number(this.withdrawAmount.replace(',', '.'))
                     let accountId = this.currentUser.account.id
                     axios.post('/accounts/' + accountId + '/withdraw', { amount }).then(() => {
                         this.withdrawAmount = 0
@@ -189,7 +193,7 @@
                     let accountId = this.currentUser.account.id
                     axios.post('/accounts/' + accountId + '/payment', {
                         receiver: this.paymentData.receiver,
-                        amount: this.paymentData.amount
+                        amount: Number(this.paymentData.amount.replace(',', '.'))
                     }).then(() => {
                         this.paymentData.receiver = ''
                         this.paymentData.amount = 0
@@ -214,11 +218,13 @@
                 },
 
                 deleteUser() {
-                    let userId = this.currentUser.id
-                    axios.delete('/users/' + userId).then((user) => {
-                        this.currentUser = null
-                        this.getAllUsers()
-                    })
+                    if (confirm("Isso apagar todos os dados da conta. Tem certez?")) {
+                        let userId = this.currentUser.id
+                        axios.delete('/users/' + userId).then((user) => {
+                            this.currentUser = null
+                            this.getAllUsers()
+                        })
+                    }
                 }
             }
         })
@@ -227,7 +233,7 @@
             let dt = new Date(dtString)
             if (dt) {
                 dt.setHours(dt.getHours())
-                return dt.getUTCDate() +'/'+ dt.getMonth() +'/'+ dt.getFullYear() +' '+ dt.getHours() +':'+ dt.getMinutes()
+                return dt.getUTCDate() + '/' + dt.getMonth() + '/' + dt.getFullYear() + ' ' + dt.getHours() + ':' + dt.getMinutes()
             }
         })
     </script>
