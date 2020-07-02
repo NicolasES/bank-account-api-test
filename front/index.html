@@ -5,75 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <style>
-        .w100 {
-            width: 100%;
-        }
-
-        #app {
-            width: 900px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: 50% 50%;
-            grid-template-rows: auto auto;
-            grid-template-areas:
-                "header header"
-                "newUser newUser"
-                "selectUser account"
-                "deposit withdraw"
-                "payment payment"
-                "history history"
-            ;
-            grid-gap: 30px;
-        }
-
-        h1 {
-            grid-area: header;
-        }
-
-        #newUser {
-            grid-area: newUser;
-        }
-
-        #selectUser {
-            grid-area: selectUser;
-        }
-
-        #selectUser select {
-            width: 100%;
-        }
-
-        #account {
-            grid-area: account;
-        }
-
-        #deposit {
-            grid-area: deposit;
-        }
-
-        #withdraw {
-            grid-area: withdraw;
-        }
-
-        #history {
-            grid-area: history;
-        }
-
-        #payment {
-            grid-area: payment;
-        }
-
-        table {
-            width: 100%;
-        }
-
-        table td {
-            text-align: center;
-        }
-    </style>
 </head>
 
 <body>
@@ -116,10 +50,10 @@
                     <legend>Conta</legend>
                     Nome: <strong> {{ currentUser.name}} </strong><br />
                     Email: <strong> {{ currentUser.email}} </strong><br />
-                    Saldo: <strong> R$ {{ currentUser.account.amount }} </strong>
-                    
-                    <br/>
-                    <br/>
+                    Saldo: <strong> R$ {{ currentUser.account.amount.toFixed(2) }} </strong>
+
+                    <br />
+                    <br />
                     <button @click="deleteUser()">DELETAR USUÁRIO</button>
                 </fieldset>
             </div>
@@ -128,17 +62,17 @@
                 <fieldset>
                     <legend>Deposito</legend>
 
-                    <label >Valor (R$):</label>
+                    <label>Valor (R$):</label>
                     <input type="text" v-model.number="depositAmount" />
                     <button @click="deposit()">CONFIRMAR</button>
                 </fieldset>
             </div>
-            
+
             <div id="withdraw">
                 <fieldset>
                     <legend>Resgate</legend>
-                    
-                    <label >Valor (R$):</label>
+
+                    <label>Valor (R$):</label>
                     <input type="text" v-model.number="withdrawAmount" />
                     <button @click="withdraw()">CONFIRMAR</button>
                 </fieldset>
@@ -148,11 +82,11 @@
                 <fieldset>
                     <legend>Fazer um pagamento</legend>
 
-                    <label >Recebedor:</label>
-                    <input type="text" v-model="paymentData.receiver"/>
+                    <label>Recebedor:</label>
+                    <input type="text" v-model="paymentData.receiver" />
 
-                    <label >Valor (R$):</label>
-                    <input type="text" v-model.number="paymentData.amount"/>
+                    <label>Valor (R$):</label>
+                    <input type="text" v-model.number="paymentData.amount" />
                     <button @click="payment()">CONFIRMAR</button>
                 </fieldset>
             </div>
@@ -170,9 +104,9 @@
                         </thead>
                         <tr v-for="transaction in accountHistory">
                             <td>{{ transaction.description }}</td>
-                            <td>20/04/2020</td>
-                            <td>{{ transaction.amount }}</td>
-                            <td>{{ transaction.accountAmount }}</td>
+                            <td>{{ transaction.createdAt | formatDate}}</td>
+                            <td>R$ {{ transaction.amount.toFixed(2) }}</td>
+                            <td>R$ {{ transaction.accountAmount.toFixed(2) }}</td>
                         </tr>
                     </table>
                 </fieldset>
@@ -289,6 +223,13 @@
             }
         })
 
+        Vue.filter('formatDate', function (dtString) {
+            let dt = new Date(dtString)
+            if (dt) {
+                dt.setHours(dt.getHours())
+                return dt.getUTCDate() +'/'+ dt.getMonth() +'/'+ dt.getFullYear() +' '+ dt.getHours() +':'+ dt.getMinutes()
+            }
+        })
     </script>
 </body>
 
