@@ -3,21 +3,9 @@ import { TransactionRepositoryContract } from "../../../src/domain/repositories/
 import sequelize from "../../support/sequelize"
 import Account from "../../../src/domain/entities/Account"
 import { AccountRepositoryContract } from "../../../src/domain/repositories/AccountRepositoryContract"
-import { HttpException } from "../../../src/domain/exceptions/HttpException"
+import { TransactionRepositoryMock, AccountRepositoryMock } from '../../support/mocks/repositoryMocks'
 
 const AccountMock = <jest.Mock<Account>><unknown>Account
-
-const TransactionRepositoryMock = jest.fn<TransactionRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    getHistoryAccount: jest.fn()
-}))
-
-const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    delete: jest.fn()
-}))
 
 describe('TransactionServices', () => {
     let transactionService: TransactionService

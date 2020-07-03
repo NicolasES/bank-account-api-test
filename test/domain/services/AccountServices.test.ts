@@ -3,15 +3,10 @@ import { AccountRepositoryContract } from "../../../src/domain/repositories/Acco
 import sequelize from "../../support/sequelize"
 import User from "../../../src/domain/entities/User"
 import Account from "../../../src/domain/entities/Account"
+import { AccountRepositoryMock } from '../../support/mocks/repositoryMocks'
 
 const UserMock = <jest.Mock<User>><unknown>User
 const AccountMock = <jest.Mock<Account>><unknown>Account
-
-const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    delete: jest.fn()
-}))
 
 describe('AccountServices', () => {
     let accountService: AccountService

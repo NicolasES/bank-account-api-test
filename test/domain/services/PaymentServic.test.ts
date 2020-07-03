@@ -2,28 +2,11 @@ import { PaymentService } from "../../../src/domain/services/PaymentService"
 import { TransactionRepositoryContract } from "../../../src/domain/repositories/TransactionRepositoryContract"
 import { PaymentRepositoryContract } from "../../../src/domain/repositories/PaymentRepositoryContract"
 import { AccountRepositoryContract } from "../../../src/domain/repositories/AccountRepositoryContract"
-import Payment from "../../../src/domain/entities/Payment"
 import sequelize from "../../support/sequelize"
-import { HttpException } from "../../../src/domain/exceptions/HttpException"
 import Account from "../../../src/domain/entities/Account"
+import { TransactionRepositoryMock, AccountRepositoryMock, PaymentRepositoryMock } from '../../support/mocks/repositoryMocks'
 
-// const PaymentMock = <jest.Mock<Payment>><unknown>Payment
 const AccountMock = <jest.Mock<Account>><unknown>Account
-
-const PaymentRepositoryMock = jest.fn<PaymentRepositoryContract, []>(() => ({
-    persist: jest.fn()
-}))
-const TransactionRepositoryMock = jest.fn<TransactionRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    getHistoryAccount: jest.fn()
-}))
-
-const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    delete: jest.fn()
-}))
 
 describe('PaymentService', () => {
     let paymentService: PaymentService

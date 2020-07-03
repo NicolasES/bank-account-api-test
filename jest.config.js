@@ -2,6 +2,8 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
+  coveragePathIgnorePatterns: ["/node_modules/", "/test/"],
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 

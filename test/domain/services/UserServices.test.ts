@@ -2,15 +2,9 @@ import { UserService } from "../../../src/domain/services/UserService"
 import { UserRepositoryContract } from "../../../src/domain/repositories/UserRepositoryContract"
 import sequelize from "../../support/sequelize"
 import User from "../../../src/domain/entities/User"
+import { UserRepositoryMock } from '../../support/mocks/repositoryMocks'
 
 const UserMock = <jest.Mock<User>><unknown>User
-
-const UserRepositoryMock = jest.fn<UserRepositoryContract, []>(() => ({
-    persist: jest.fn(),
-    find: jest.fn(),
-    getAll: jest.fn(),
-    delete: jest.fn()
-}))
 
 describe('UserServices', () => {
     let userService: UserService
@@ -44,7 +38,7 @@ describe('UserServices', () => {
     })
     
     it('should run "findUser()" successfully', async () => {
-        let userMock = new User()
+        let userMock = new UserMock()
         userRepository.find = jest.fn().mockResolvedValueOnce(userMock)
 
         let user = await userService.findUser(1)
