@@ -2,8 +2,10 @@ import { AccountService } from "../../../src/domain/services/AccountService"
 import { AccountRepositoryContract } from "../../../src/domain/repositories/AccountRepositoryContract"
 import sequelize from "../../support/sequelize"
 import User from "../../../src/domain/entities/User"
+import Account from "../../../src/domain/entities/Account"
 
 const UserMock = <jest.Mock<User>><unknown>User
+const AccountMock = <jest.Mock<Account>><unknown>Account
 
 const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
     persist: jest.fn(),
@@ -35,5 +37,12 @@ describe('AccountServices', () => {
         accountService.createAccount(userMock)
 
         expect(accountRepository.persist).toHaveBeenCalled()
+    })
+    
+    it('should run "deleteAccount()" successfully', () => {
+        const account = new AccountMock()
+        accountService.deleteAccount(account)
+
+        expect(accountRepository.delete).toHaveBeenCalled()
     })
 })

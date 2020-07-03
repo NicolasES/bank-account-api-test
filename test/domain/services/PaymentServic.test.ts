@@ -90,15 +90,4 @@ describe('PaymentService', () => {
         await expect(paymentService.performPayment(1, 500, "")).rejects.toThrow('The payment receiver is required.')
     })
 
-    // it('should run "performDeposit()" and throw HttpException - "Payment not found."', async () => {
-    //     await expect(transactionService.performDeposit(1, 500)).rejects.toThrow('Payment not found.');
-    // })
-
-    // it('should run "performWithdraw()" and throw HttpException - "insufficient amount."', async () => {
-    //     let accountMock = new AccountMock()
-    //     accountMock.amount = 10 
-    //     accountRepositoryMock.find = jest.fn().mockResolvedValueOnce(accountMock)
-
-    //     await expect(transactionService.performWithdraw(1, 500)).rejects.toThrow('Insufficient amount in the account.');
-    // })
 })
