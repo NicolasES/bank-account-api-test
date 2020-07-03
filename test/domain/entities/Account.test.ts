@@ -8,7 +8,7 @@ describe('Account', () => {
         sequelize.startTestDB()
     })
 
-    it('should create a Account successfully', () => {
+    it('should create an Account successfully', () => {
         const userMock = new UserMock()
         userMock.id = 7
 

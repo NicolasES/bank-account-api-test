@@ -6,7 +6,7 @@ describe('User', () => {
         sequelize.startTestDB()
     })
 
-    it('should create a User successfully', () => {
+    it('should create an User successfully', () => {
        const user = new User({ name: 'John', email: 'john@email.com', password: '123456' })
         expect(user instanceof User).toBe(true)
         expect(user.name).toBe('John')
