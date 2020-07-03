@@ -2,6 +2,7 @@ import { UserRepositoryContract } from "../repositories/UserRepositoryContract"
 import User from "../entities/User"
 import { UserServiceContract, CreateUserDTO } from "./contracts/UserServiceContract"
 import { HttpException } from "../exceptions/HttpException"
+import bcrypt from 'bcrypt'
 
 export class UserService implements UserServiceContract {
     constructor(
@@ -21,6 +22,8 @@ export class UserService implements UserServiceContract {
     
     createUser(data: CreateUserDTO): Promise<User> {
         let user = new User(data)
+        data.password = bcrypt.hashSync(data.password, 10)
+
         return this.userRepository.persist(user)
     }
     

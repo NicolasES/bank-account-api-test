@@ -12,10 +12,10 @@ describe('HttpException', () => {
         expect(httpException.statusCode).toBe(400)
         expect(httpException.data).toBe(errorData)
         
-        httpException = new HttpException('Error', 400)
+        httpException = new HttpException('Error2')
 
-        expect(httpException.message).toBe('Error')
+        expect(httpException.message).toBe('Error2')
         expect(httpException.statusCode).toBe(400)
-        expect(httpException.data).toMatchObject({ error: errorData.message })
+        expect(httpException.data).toMatchObject({ error: 'Error2' })
     })
 })
