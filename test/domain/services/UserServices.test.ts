@@ -5,7 +5,8 @@ import sequelize from "../../support/sequelize"
 const UserRepositoryMock = jest.fn<UserRepositoryContract, []>(() => ({
     persist: jest.fn(),
     find: jest.fn(),
-    getAll: jest.fn()
+    getAll: jest.fn(),
+    delete: jest.fn()
 }))
 
 describe('UserServices', () => {

@@ -16,7 +16,6 @@ export class TransactionService implements TransactionServiceContract{
         if (amount <= 0 ) {
             throw new HttpException('The deposit amount must be greater than 0.', 400)
         }
-        console.log('data:', new Date())
         let deposit = new Transaction({ amount, description: 'Depósito em conta.', createdAt: new Date() })
         deposit.setAccount(account)
 

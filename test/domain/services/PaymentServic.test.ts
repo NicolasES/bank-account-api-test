@@ -15,12 +15,14 @@ const PaymentRepositoryMock = jest.fn<PaymentRepositoryContract, []>(() => ({
 }))
 const TransactionRepositoryMock = jest.fn<TransactionRepositoryContract, []>(() => ({
     persist: jest.fn(),
-    find: jest.fn()
+    find: jest.fn(),
+    getHistoryAccount: jest.fn()
 }))
 
 const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
     persist: jest.fn(),
-    find: jest.fn()
+    find: jest.fn(),
+    delete: jest.fn()
 }))
 
 describe('PaymentService', () => {

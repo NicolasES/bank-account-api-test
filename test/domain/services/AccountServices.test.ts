@@ -7,7 +7,8 @@ const UserMock = <jest.Mock<User>><unknown>User
 
 const AccountRepositoryMock = jest.fn<AccountRepositoryContract, []>(() => ({
     persist: jest.fn(),
-    find: jest.fn()
+    find: jest.fn(),
+    delete: jest.fn()
 }))
 
 describe('AccountServices', () => {
