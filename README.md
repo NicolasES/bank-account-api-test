@@ -1,4 +1,4 @@
-# warren-api-test
+# bank-account-api-test
 A API foi desenvolvida com Node.js e Typescript.<br/>
 O banco de dados utilizado durante o desenvolvimento foi MySQL.<br/>
 Abaixo tem instruções para a instalação do projeto.<br/>
